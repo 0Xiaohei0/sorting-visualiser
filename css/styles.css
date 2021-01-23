@@ -43,9 +43,13 @@ body {
   transition: 0.3s;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+}
+
 .btn--primary {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-Text);
 }
 
 .btn--primary:hover {
@@ -88,6 +92,34 @@ body {
   background: var(--color-secondary);
   justify-content: center;
   align-items: center;
+}
+
+.speed-container {
+  padding: 1vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-primary);
+  border-radius: var(--border-radius);
+  outline: 0;
+}
+
+.speed-label {
+  color: var(--color-Text);
+}
+
+.slider-speed {
+  background-color: var(--color-Text);
+  color: var(--color-Text);
+}
+
+.algorithm-select {
+  display: none;
+  background-color: var(--color-primary);
+  color: var(--color-Text);
+  border-radius: var(--border-radius);
+  padding: 1vh 2vw;
+  border-width: 0;
 }
 
 /* visualizer */

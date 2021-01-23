@@ -9,15 +9,18 @@ const MIN = 1;
 const MAX = 100;
 const HEIGHT_MULT = 7;
 
-const FRAME_TIME = 1;
+let FRAME_TIME_MAX = 1000;
+let FRAME_TIME = 1;
 
 const container = document.getElementById("visualizer-container");
-const btnRandomize = document
-  .getElementById("btn-randomize")
-  .addEventListener("click", randomizeArray);
-const btnSort = document
-  .getElementById("btn-sort")
-  .addEventListener("click", bubbleSort);
+const btnRandomize = document.getElementById("btn-randomize");
+btnRandomize.addEventListener("click", randomizeArray);
+const btnSort = document.getElementById("btn-sort");
+btnSort.addEventListener("click", sort);
+const speedSlider = document.getElementById("slider-speed");
+speedSlider.addEventListener("input", () => {
+  FRAME_TIME = FRAME_TIME_MAX - speedSlider.value;
+});
 
 randomizeArray();
 
@@ -40,6 +43,11 @@ function updateBars() {
   }
 }
 
+function sort() {
+  btnSort.disabled = true;
+  bubbleSort();
+}
+
 function bubbleSort() {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length - i; j++) {
@@ -59,10 +67,11 @@ function playAnimation() {
   playNextAnimation();
 
   function playNextAnimation() {
-    if (animations[currentAnimation] === undefined) {
-      return;
-    }
     setTimeout(() => {
+      if (animations[currentAnimation] === undefined) {
+        btnSort.disabled = false;
+        return;
+      }
       const [barA, barB] = animations[currentAnimation];
       swapHeight(barA, barB);
       changeColor(barA, barB);
