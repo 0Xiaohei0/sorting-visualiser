@@ -14,17 +14,6 @@
   </head>
   <body>
     <nav class="tool-bar">
-      <select
-        name="algorithm-select"
-        class="algorithm-select"
-        id="algorithm-select"
-      >
-        <option value="0" selected>Bubble Sort</option>
-        <option value="0">Quick Sort</option>
-        <option value="0">Merge Sort</option>
-      </select>
-      <button id="btn-sort" class="btn btn--primary">Sort</button>
-      <button id="btn-randomize" class="btn btn--primary">Randomize</button>
       <div class="speed-container">
         <label class="speed-label" for="slider-speed">Speed</label>
         <input
@@ -32,10 +21,21 @@
           type="range"
           id="slider-speed"
           min="1"
-          max="1000"
+          max="500"
           value="1000"
         />
       </div>
+      <select
+        name="algorithm-select"
+        class="algorithm-select"
+        id="algorithm-select"
+      >
+        <option class="algorithm-item" value="0" selected>Bubble Sort</option>
+        <option class="algorithm-item" value="1">Quick Sort</option>
+        <option class="algorithm-item" value="2">Merge Sort</option>
+      </select>
+      <button id="btn-sort" class="btn btn--accent">Sort</button>
+      <button id="btn-randomize" class="btn btn--primary">Randomize</button>
     </nav>
     <section id="visualizer-container"></section>
     <script src="js/index.js"></script>

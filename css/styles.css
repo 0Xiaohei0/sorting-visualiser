@@ -3,8 +3,8 @@
   --color-primary-dark: #a7c892;
   --color-secondary: #292915;
   --color-secondary-dark: #1b1b0e;
-  --color-accent: #edb458;
-  --color-accent-dark: #e8871e;
+  --color-accent: #e08c31;
+  --color-accent-dark: #c57219;
   --color-Text: #292915;
   --border-radius: 3rem;
 }
@@ -26,12 +26,8 @@ body {
   color: var(--color-Text);
 }
 
-@media screen and (min-width: 1024px) {
-}
-
 /* buttons */
 .btn {
-  font-size: 1.8rem;
   padding: 2rem 3rem;
   border-radius: var(--border-radius);
   border-width: 0;
@@ -79,23 +75,18 @@ body {
   padding-right: 6rem;
 }
 
-@media screen and (min-width: 1024px) {
-  .btn {
-    font-size: 1.5rem;
-  }
-}
-
 /* Tool Bar */
 .tool-bar {
   height: 10vh;
   display: flex;
   background: var(--color-secondary);
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 .speed-container {
-  padding: 1vh;
+  padding: 1vh 3vw;
+  margin: 0 5vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,6 +97,7 @@ body {
 
 .speed-label {
   color: var(--color-Text);
+  font-weight: 600;
 }
 
 .slider-speed {
@@ -114,17 +106,21 @@ body {
 }
 
 .algorithm-select {
-  display: none;
   background-color: var(--color-primary);
   color: var(--color-Text);
   border-radius: var(--border-radius);
   padding: 1vh 2vw;
   border-width: 0;
+  outline: none;
+}
+
+.algorithm-item {
+  border-radius: var(--border-radius);
 }
 
 /* visualizer */
 #visualizer-container {
-  margin: 0 2rem;
+  margin: 1vh 2rem;
   height: 90vh;
   display: flex;
   align-items: flex-end;
