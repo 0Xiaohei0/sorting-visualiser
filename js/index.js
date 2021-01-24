@@ -1,6 +1,6 @@
-const array = [];
+let array = [];
 
-const animations = [];
+const swapAnimations = [];
 const PRIMARY_COLOR = "#e8871e";
 const SECONDARY_COLOR = "#D8EBC1";
 
@@ -19,6 +19,7 @@ let FRAME_TIME = 1;
 const container = document.getElementById("visualizer-container");
 const btnRandomize = document.getElementById("btn-randomize");
 const btnSort = document.getElementById("btn-sort");
+const btnCancel = document.getElementById("btn-cancel");
 const speedSlider = document.getElementById("slider-speed");
 const algorithmSelect = document.getElementById("algorithm-select");
 
@@ -26,7 +27,6 @@ btnSort.addEventListener("click", sort);
 btnRandomize.addEventListener("click", scrambleArray);
 speedSlider.addEventListener("input", () => {
   FRAME_TIME = FRAME_TIME_MAX - 500 - speedSlider.value;
-  console.log(FRAME_TIME);
 });
 
 //randomizeArray();
@@ -34,7 +34,7 @@ buildArray();
 
 function randomizeArray() {
   array.length = 0;
-  animations.length = 0;
+  swapAnimations.length = 0;
   for (let i = 0; i < SIZE; i++) {
     array.push(Math.floor(Math.random() * (MAX - MIN)) + MIN);
   }
@@ -55,9 +55,9 @@ function scrambleArray() {
     let randomA = Math.floor(Math.random() * SIZE);
     let randomB = Math.floor(Math.random() * SIZE);
     swap(array, randomA, randomB);
-    animations.push([randomA, randomB]);
+    swapAnimations.push([randomA, randomB]);
   }
-  playAnimation();
+  playSwapAnimation();
 }
 
 function updateBars() {
@@ -80,12 +80,37 @@ function disableButtons(state) {
 
 function sort() {
   currentAlgorithm = algorithmSelect.value;
-  if (currentAlgorithm === "0") {
-    bubbleSort();
-  } else if (currentAlgorithm === "1") {
-    quickSort(0, array.length - 1);
+  console.log(array);
+  switch (currentAlgorithm) {
+    case "0":
+      bubbleSort();
+      break;
+    case "1":
+      quickSort(0, array.length - 1);
+      break;
+    case "2":
+      selectionSort();
+      break;
+    case "3":
+      insertionSort();
+      break;
+    case "4":
+      array = mergeSort(array);
+      break;
   }
-  playAnimation();
+  console.log(array);
+  playSwapAnimation();
+}
+
+function bubbleSort() {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - i; j++) {
+      if (array[j] > array[j + 1]) {
+        swap(array, j, j + 1);
+        swapAnimations.push([j, j + 1]);
+      }
+    }
+  }
 }
 
 function quickSort(start, end) {
@@ -102,40 +127,86 @@ function quickSort(start, end) {
     for (let i = start; i < end; i++) {
       if (array[i] < pivotValue) {
         swap(array, i, pivotIndex);
-        animations.push([i, pivotIndex]);
+        swapAnimations.push([i, pivotIndex]);
         pivotIndex++;
       }
     }
     swap(array, pivotIndex, end);
-    animations.push([pivotIndex, end]);
+    swapAnimations.push([pivotIndex, end]);
     return pivotIndex;
   }
 }
 
-function bubbleSort() {
+function selectionSort() {
   for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length - i; j++) {
-      if (array[j] > array[j + 1]) {
-        swap(array, j, j + 1);
-        animations.push([j, j + 1]);
+    let min = array[i];
+    let minIndex = i;
+    for (let j = i; j < array.length; j++) {
+      if (array[j] < array[minIndex]) {
+        min = array[j];
+        minIndex = j;
       }
     }
+    swap(array, i, minIndex);
+    swapAnimations.push([i, minIndex]);
   }
 }
 
-function playAnimation() {
-  console.log(animations.length);
+function insertionSort() {
+  for (let i = 1; i < array.length; i++) {
+    let insert = array[i];
+    let j = i - 1;
+    while (j >= 0 && array[j] > insert) {
+      array[j + 1] = array[j];
+      swapAnimations.push([j + 1, j]);
+      j--;
+    }
+    array[j + 1] = insert;
+  }
+}
+
+function mergeSort(arr) {
+  if (arr.length < 2) {
+    return;
+  }
+  let pivotIndex = Math.floor(arr.length / 2);
+  let firstHalf = arr.slice(0, pivotIndex);
+  let secondHalf = arr.slice(pivotIndex, arr.length);
+  mergeSort(firstHalf);
+  mergeSort(secondHalf);
+  return merge(firstHalf, secondHalf, arr);
+
+  function merge(arr1, arr2, result) {
+    let index1 = 0;
+    let index2 = 0;
+    while (index1 < arr1.length && index2 < arr2.length) {
+      if (arr1[index1] < arr2[index2]) {
+        result.push(arr1[index1++]);
+      } else {
+        result.push(arr2[index2++]);
+      }
+    }
+    while (index1 < arr1.length) {
+      result.push(arr1[index1++]);
+    }
+    while (index2 < arr2.length) {
+      result.push(arr2[index2++]);
+    }
+    return result;
+  }
+}
+function playSwapAnimation() {
   let currentAnimation = 0;
   disableButtons(true);
   playNextAnimation();
 
   function playNextAnimation() {
     setTimeout(() => {
-      if (animations[currentAnimation] === undefined) {
+      if (swapAnimations[currentAnimation] === undefined) {
         animationFinish();
         return;
       }
-      const [barA, barB] = animations[currentAnimation];
+      const [barA, barB] = swapAnimations[currentAnimation];
       swapHeight(barA, barB);
       changeColor(barA, barB);
       currentAnimation++;
@@ -159,7 +230,7 @@ function playAnimation() {
     }
     function animationFinish() {
       disableButtons(false);
-      animations.length = 0;
+      swapAnimations.length = 0;
     }
   }
 }
