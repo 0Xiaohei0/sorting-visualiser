@@ -1,11 +1,12 @@
 :root {
-  --color-primary: #bad4aa;
-  --color-primary-dark: #a7c892;
-  --color-secondary: #292915;
+  --color-primary: #d4c2aa;
+  --color-primary-dark: #c8b192;
+  --color-secondary: #5c4c41;
   --color-secondary-dark: #1b1b0e;
   --color-accent: #e08c31;
   --color-accent-dark: #c57219;
   --color-Text: #292915;
+  --color-background: rgb(33, 34, 31);
   --border-radius: 3rem;
 }
 
@@ -21,6 +22,7 @@ html {
 }
 
 body {
+  background-color: var(--color-background);
   font-family: Inter, Arial, Helvetica, sans-serif;
   font-size: 2.4rem;
   color: var(--color-Text);
